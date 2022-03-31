@@ -1,0 +1,10 @@
+{
+    "name": "aha-todos-app",
+    "short_name": "WD",
+    "theme_color": "#111",
+    "background_color":"#222222",
+    "display":"standalone",
+    "scope":"/",
+    "start_url":"/",
+    "icons":[]
+}
