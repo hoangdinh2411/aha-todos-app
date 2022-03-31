@@ -1,0 +1,148 @@
+/* IMPORTS */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400&display=swap');
+
+/* RESET */
+*, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+/* VARIABLES */
+$blue: #3F82C0;
+$green: #3FC08A;
+$red: #ff6a6a;
+$gradient: linear-gradient(180deg, #3F6BC0 0%, #3FB1C0 100%);
+$white: #fff;
+$black: #222;
+
+$baseline: 1.5rem;
+
+/* LAYOUT */
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+
+    header {
+        width: 100%;
+        background: $blue;
+        height: $baseline * 3;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 1rem rgba($color: #000000, $alpha: .2);
+
+        .logo {
+            height: 50%;
+            margin: auto;
+        }
+    }
+
+    main {
+        flex: 1;
+        padding: 1rem;
+        overflow-x: scroll;
+
+        > article {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: solid 1px rgba($color: $black, $alpha: .1);
+            transition: all 1s ease;
+
+            &.checked {
+                opacity: .4;
+
+                .checkbox div {
+                    background-image: url('../assets/icon-selected.svg');
+                    background-repeat: no-repeat;
+                    background-size: 70%;
+                    background-position: center center;
+                }
+
+                p {
+                    text-decoration: line-through;
+                }
+            }
+
+            > section {
+                display: flex;
+                align-items: center;
+                flex: 1;
+                
+                .checkbox {
+                    
+                    > div {
+                        width: $baseline;
+                        height: $baseline;
+                        border: 2px solid $black;
+                        border-radius: .25rem;
+                    }
+                }
+
+                p {
+                    flex: 1;
+                    padding: .5rem;
+                }
+
+            }
+
+            .remove {
+                width: $baseline * 1.5;
+                height: $baseline * 1.5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: .25rem;
+
+                &:active {
+                    background: $red;
+                    border-radius: 999rem;
+
+                    img {
+                        filter: invert(1)
+                    }
+                }
+            }
+        }
+    }
+
+    footer {
+        background: $black;
+        height: $baseline * 3;
+        display: flex;
+
+        input {
+            appearance: none;
+            border: none;
+            padding: .5rem 1rem;
+            font-size: 1.2rem;
+            background: none;
+            color: $white;
+            font-family: 'Fira Sans';
+            flex: 1;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        button {
+            appearance: none;
+            width: $baseline * 3;
+            height: $baseline * 3;
+            border:none;
+            background: $green;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:active {
+                opacity: .8;
+            }
+        }
+    }
+}
