@@ -1,5 +1,5 @@
 window.addEventListener('load',async()=>{
-    if('serverWorker' in navigator){
+    if('serviceWorker' in navigator){
         try {
             await navigator.serviceWorker.register('/serviceworker.js')
         } catch (error) {
