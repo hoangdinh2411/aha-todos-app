@@ -1,4 +1,3 @@
-
 // Notification
 
 // 1. check  permissions
@@ -21,20 +20,21 @@ async function requestPermissions() {
 // 3.  show notification
 
 function showNotification(mess) {
-  const n  = new Notification('Welcome to Aha Website', {
+  const n = new Notification('Welcome to Aha Website', {
     icon: 'assets/logo/logo-72.png',
-    body: mess
-  })
+    body: mess,
+  });
 
-  setTimeout(()=>{
-    n.close()
-  },2000)
+  // Close automatic after 2s
+  setTimeout(() => {
+    n.close();
+  }, 2000);
 }
 
 window.addEventListener('load', async () => {
   if (await checkPermissions()) {
     // send notification
-    showNotification('I love you!!!')
+    showNotification('I love you!!!');
   } else {
     await requestPermissions();
   }
@@ -83,6 +83,7 @@ const App = {
             data.record.myTodos.length
           );
           App.todos = myTodos;
+          App.setData();
         }
       })
       .catch((err) => console.log(err));
@@ -95,11 +96,7 @@ const App = {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({myTodos: App.todos}),
-    })
-      .then(() => {
-        App.saveLocal();
-      })
-      .catch((err) => console.log(err));
+    });
   },
 
   add() {
@@ -110,7 +107,6 @@ const App = {
     }
 
     this.todos.push({id: Date.now(), text, done: false});
-    console.log(this.todos);
     this.render();
     this.setData();
   },
