@@ -64,6 +64,7 @@ const App = {
     );
     if (todosOnLocal) {
       App.todos = todosOnLocal;
+      await App.setData()
       App.render();
     }
 
