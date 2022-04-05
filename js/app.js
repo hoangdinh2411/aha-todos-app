@@ -9,21 +9,6 @@ const App = {
   },
   todos: [],
 
-  add() {
-    const text = this.els.input.value;
-    if (text === '') {
-      alert('Type something!');
-      return;
-    }
-    this.todos.push({
-      id: Date.now(),
-      text,
-      done: false,
-    });
-    this.els.input.value = '';
-    this.render();
-  },
-
   fetchingData: async () => {
     await fetch(API_URL, {
       headers: {
@@ -33,7 +18,8 @@ const App = {
     })
       .then((res) => res.json())
       .then((data) => {
-        todos = data.record.myTodos;
+        console.log(data);
+        todos.push(data.record.myTodos);
       })
       .catch((err) => {
         const todosOnLocal = JSON.parse(
@@ -41,10 +27,40 @@ const App = {
         );
         if (todosOnLocal) {
           App.todos = todosOnLocal;
-          App.render()
+          App.render();
         }
       });
   },
+  setData: async () => {
+    await fetch(API_URL, {
+      method: 'PUT',
+      headers: {
+        'X-Master-Key': API_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({myTodos: App.todos}),
+    })
+      .then(() => {
+        console.log('success');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+  add() {
+    const text = this.els.input.value;
+    if (text === '') {
+      alert('Type something!');
+      return;
+    }
+
+    this.todos.push({id: Date.now(), text, done: false});
+
+    this.els.input.value = '';
+    this.render();
+    this.setData();
+  },
+
   render() {
     const main = document.querySelector('main');
 
@@ -92,6 +108,7 @@ const App = {
     this.todos[index].done = !this.todos[index].done;
     this.saveLocal();
     this.render();
+    this.setData()
   },
   remove(id) {
     const index = this.todos.findIndex(
@@ -99,8 +116,9 @@ const App = {
     );
     this.todos.splice(index, 1);
     this.saveLocal();
-
     this.render();
+    this.setData()
+
   },
   saveLocal() {
     localStorage.setItem(

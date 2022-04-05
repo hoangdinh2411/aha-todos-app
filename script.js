@@ -43,3 +43,26 @@ self.addEventListener('activate',(e)=>{
         )
     }))
 });
+
+self.addEventListener("fetch", (event) => {
+  console.log(event)
+    event.respondWith(
+        fetch(event.request)
+            .then((res) => {
+                //Make clone of response
+                const resClone = res.clone();
+                // Open cache
+                caches.open(cacheName).then((cache) => {
+                    // Add response to the cache
+                    cache.put(event.request, resClone);
+                });
+                return res;
+            })
+            .catch((err) =>
+                caches
+                    .match(event.request)
+                    .then((res) => res)
+                    .catch((err) => console.error(err))
+            )
+    );
+});
