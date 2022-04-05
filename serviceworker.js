@@ -1,7 +1,6 @@
 const cacheName = 'todos';
 const cacheAssets = [
   'index.html',
-  '/js/app.js',
   'script.js',
   '/scss/main.css',
   '/assets/icon-add.svg',
