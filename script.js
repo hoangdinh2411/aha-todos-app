@@ -64,7 +64,7 @@ const App = {
     );
     if (todosOnLocal) {
       App.todos = todosOnLocal;
-      // App.render();
+      App.render();
     }
 
     try {
