@@ -81,12 +81,12 @@ const App = {
           todosOnLocal.some((todoOnLocal) => {
             return data.record.myTodos.map((todo) => {
               if (todoOnLocal.id !== todo.id) {
-                return true;
+                return false;
               }
-              return false;
+              return true;
             });
           });
-        if (compare) {
+        if (!compare) {
           App.setData();
           return;
         }
