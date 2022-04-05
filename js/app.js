@@ -10,8 +10,12 @@ const App = {
   todos: [],
 
   fetchingData: async () => {
-    if (localStorage.getItem('todos')) {
-      App.todos = JSON.parse(localStorage.getItem('todos'));
+    const todosOnLocal = JSON.parse(
+      localStorage.getItem('todos')
+    );
+    if (todosOnLocal) {
+      App.todos = todosOnLocal;
+      App.render();
     }
     await fetch(API_URL, {
       headers: {
@@ -21,8 +25,12 @@ const App = {
     })
       .then((res) => res.json())
       .then((data) => {
-        App.todos.push(data.record.myTodos);
-        App.render()
+        if (data.record.myTodos.length > 0) {
+          App.todos.push(data.record.myTodos);
+          App.render();
+          return;
+        }
+        return;
       })
       .catch((err) => {
         console.log(err);
@@ -39,6 +47,7 @@ const App = {
     })
       .then(() => {
         console.log('success');
+        App.saveLocal();
       })
       .catch((err) => {
         console.log(err);
@@ -78,8 +87,6 @@ const App = {
             </section>
         </article>
          `;
-
-      this.saveLocal();
     });
 
     main.innerHTML = output.join('');
