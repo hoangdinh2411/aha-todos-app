@@ -10,6 +10,10 @@ const App = {
   todos: [],
 
   fetchingData: async () => {
+    if (localStorage.getItem('todos')) {
+      App.todos = JSON.parse(localStorage.getItem('todos'));
+      App.render();
+    }
     await fetch(API_URL, {
       headers: {
         'X-Master-Key': API_KEY,
@@ -18,21 +22,16 @@ const App = {
     })
       .then((res) => res.json())
       .then((data) => {
-        todos.push(data.record.myTodos);
+        App.todos.push(data.record.myTodos);
+        App.render()
       })
       .catch((err) => {
-        const todosOnLocal = JSON.parse(
-          localStorage.getItem('todos')
-        );
-        if (todosOnLocal) {
-          App.todos = todosOnLocal;
-          App.render();
-        }
+        console.log(err);
       });
   },
   setData: async () => {
     await fetch(API_URL, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'X-Master-Key': API_KEY,
         'Content-Type': 'application/json',
@@ -80,6 +79,8 @@ const App = {
             </section>
         </article>
          `;
+
+      this.saveLocal();
     });
 
     main.innerHTML = output.join('');
@@ -105,19 +106,16 @@ const App = {
       (todo) => todo.id === Number(id)
     );
     this.todos[index].done = !this.todos[index].done;
-    this.saveLocal();
     this.render();
-    this.setData()
+    this.setData();
   },
   remove(id) {
     const index = this.todos.findIndex(
       (todo) => todo.id === Number(id)
     );
     this.todos.splice(index, 1);
-    this.saveLocal();
     this.render();
-    this.setData()
-
+    this.setData();
   },
   saveLocal() {
     localStorage.setItem(
@@ -128,7 +126,6 @@ const App = {
 
   init() {
     this.fetchingData();
-    this.render();
 
     this.els.addButton.addEventListener('click', () => {
       this.add();
