@@ -115,7 +115,7 @@ const App = {
   render() {
     const main = document.querySelector('main');
     this.els.input.value = '';
-
+    App.saveLocal()
     const output = this.todos?.map((todo) => {
       return `<article class="${
         todo.done ? 'checked' : ''
