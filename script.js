@@ -21,10 +21,14 @@ async function requestPermissions() {
 // 3.  show notification
 
 function showNotification(mess) {
-  new Notification('Welcome to Aha Website', {
+  const n  = new Notification('Welcome to Aha Website', {
     icon: 'assets/logo/logo-72.png',
     body: mess
   })
+
+  setTimeout(()=>{
+    n.close()
+  },2000)
 }
 
 window.addEventListener('load', async () => {
