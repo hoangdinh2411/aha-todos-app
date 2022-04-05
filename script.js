@@ -11,6 +11,19 @@ window.addEventListener('load', async () => {
 });
 
 
+// Notification 
+
+// 1. check  permissions
+
+async function checkPermissions(){
+  console.log(Notification.permission)
+}
+
+// 2 . request permissions
+  
+// 3.  show notification
+
+
 const API_URL =
   'https://api.jsonbin.io/v3/b/624b4cd61a1b610f084b86a2';
 const API_KEY =
