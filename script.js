@@ -82,7 +82,7 @@ const App = {
   setData: async () => {
     localStorage.setItem(
       'todos',
-      JSON.stringify(this.todos)
+      JSON.stringify(App.todos)
     );
     await fetch(API_URL, {
       method: 'PUT',
