@@ -10,13 +10,6 @@ const App = {
   todos: [],
 
   fetchingData: async () => {
-    const todosOnLocal = JSON.parse(
-      localStorage.getItem('todos')
-    );
-    if (todosOnLocal) {
-      App.todos = todosOnLocal;
-      App.render();
-    }
     await fetch(API_URL, {
       headers: {
         'X-Master-Key': API_KEY,
@@ -70,7 +63,7 @@ const App = {
   render() {
     const main = document.querySelector('main');
 
-    if(this.todos.lenght===0) return;
+    if (this.todos.length === 0) return;
     const output = this.todos?.map((todo) => {
       return `<article class="${
         todo.done ? 'checked' : ''
@@ -132,12 +125,21 @@ const App = {
   },
 
   init() {
+    const todosOnLocal = JSON.parse(
+      localStorage.getItem('todos')
+    );
+    if (todosOnLocal) {
+      this.todos = todosOnLocal;
+      this.render();
+    }
     this.fetchingData();
-    this.render()
+    this.render();
     this.els.addButton.addEventListener('click', () => {
       this.add();
       this.saveLocal();
     });
+
+    console.log(this.todos);
   },
 };
 
