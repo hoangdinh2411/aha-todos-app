@@ -12,7 +12,6 @@ const App = {
   fetchingData: async () => {
     if (localStorage.getItem('todos')) {
       App.todos = JSON.parse(localStorage.getItem('todos'));
-      App.render();
     }
     await fetch(API_URL, {
       headers: {
