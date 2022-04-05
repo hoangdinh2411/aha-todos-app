@@ -173,12 +173,13 @@ const App = {
   },
 
   init() {
+    App.fetchingData();
+    App.render();
     this.els.addButton.addEventListener('click', () => {
       this.add();
       this.saveLocal();
     });
-    App.fetchingData();
-    this.render();
+   
   },
 };
 
