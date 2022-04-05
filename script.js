@@ -67,8 +67,8 @@ const App = {
 
     if (todosOnLocal) {
       App.todos = todosOnLocal;
-      App.setData();
       App.render();
+      await App.setData();
     }
     await fetch(API_URL, {
       headers: {
