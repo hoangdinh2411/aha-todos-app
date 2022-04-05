@@ -1,14 +1,19 @@
+const API_URL =
+  'https://api.jsonbin.io/v3/b/624b4cd61a1b610f084b86a2';
+const API_KEY =
+  '$2b$10$Vk7WtdXZWVdBZZOg5xtZ7efgP2Vzcm7.0xFShfs68AoRlvxwyv1aW';
 const App = {
   els: {
     input: document.querySelector('input'),
     addButton: document.querySelector('button'),
   },
   todos: [],
+
   add() {
     const text = this.els.input.value;
     if (text === '') {
       alert('Type something!');
-      return
+      return;
     }
     this.todos.push({
       id: Date.now(),
@@ -19,6 +24,27 @@ const App = {
     this.render();
   },
 
+  fetchingData: async () => {
+    await fetch(API_URL, {
+      headers: {
+        'X-Master-Key': API_KEY,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        todos = data.record.myTodos;
+      })
+      .catch((err) => {
+        const todosOnLocal = JSON.parse(
+          localStorage.getItem('todos')
+        );
+        if (todosOnLocal) {
+          App.todos = todosOnLocal;
+          App.render()
+        }
+      });
+  },
   render() {
     const main = document.querySelector('main');
 
@@ -47,17 +73,16 @@ const App = {
       btn.addEventListener('click', () => {
         const id = btn.dataset.id;
         this.changeStatus(id);
-    });
+      });
     });
     const removeBtn = document.querySelectorAll('.remove');
-    
+
     removeBtn?.forEach((btn) => {
       btn.addEventListener('click', () => {
         const id = btn.dataset.id;
         this.remove(id);
+      });
     });
-    });
-    
   },
 
   changeStatus: function (id) {
@@ -85,13 +110,9 @@ const App = {
   },
 
   init() {
-    const todosOnLocal = JSON.parse(
-      localStorage.getItem('todos')
-    );
-    if (todosOnLocal) {
-      this.todos = todosOnLocal;
-      this.render();
-    }
+    this.fetchingData();
+    this.render();
+
     this.els.addButton.addEventListener('click', () => {
       this.add();
       this.saveLocal();
