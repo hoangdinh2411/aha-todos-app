@@ -59,11 +59,8 @@ const App = {
   todos: [],
 
   fetchingData: async () => {
-    const todosOnLocal =
-      JSON.parse(localStorage.getItem('todos')) ||
-      undefined;
-    if (todosOnLocal) {
-      App.todos = todosOnLocal;
+    if (localStorage.getItem('todos')) {
+      App.todos = JSON.parse(localStorage.getItem('todos'));
       App.render();
     }
 
@@ -75,21 +72,6 @@ const App = {
     })
       .then((res) => res.json())
       .then((data) => {
-        const compare =
-          todosOnLocal &&
-          todosOnLocal.some((todoOnLocal) => {
-            return data.record.myTodos.map((todo) => {
-              if (todoOnLocal.id !== todo.id) {
-                return false;
-              }
-              return true;
-            });
-          });
-        if (!compare) {
-          App.setData();
-          return;
-        }
-
         const myTodos = data.record.myTodos.slice(
           0,
           data.record.myTodos.length
