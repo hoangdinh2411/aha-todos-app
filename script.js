@@ -87,6 +87,7 @@ const App = {
     }
   },
   setData: async () => {
+    App.saveLocal();
     await fetch(API_URL, {
       method: 'PUT',
       headers: {
@@ -112,8 +113,6 @@ const App = {
   render() {
     const main = document.querySelector('main');
     this.els.input.value = '';
-    App.saveLocal();
-    App.setData();
     const output = this.todos?.map((todo) => {
       return `<article class="${
         todo.done ? 'checked' : ''
