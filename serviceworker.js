@@ -37,11 +37,12 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-self.addEventListener('fetch', (e) => {
+self.addEventListener('fetch', async(e) => {
   console.log(e.request.url);
+  
   e.respondWith(
     caches
       .match(e.request)
-      .then((resp) => resp || fetch(resp.request.url))
+      .then((resp) => resp || await fetch(resp.request))
   );
 });
