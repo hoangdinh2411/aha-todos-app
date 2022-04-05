@@ -171,8 +171,8 @@ const App = {
     );
   },
 
-  init() {
-    App.fetchingData();
+  async init() {
+    await App.fetchingData();
     App.render();
     this.els.addButton.addEventListener('click', () => {
       this.add();
