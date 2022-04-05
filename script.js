@@ -46,6 +46,7 @@ self.addEventListener('activate',(e)=>{
 
 self.addEventListener("fetch", (event) => {
   console.log(event)
+  console.log('fetching server worker')
     event.respondWith(
         fetch(event.request)
             .then((res) => {
