@@ -68,7 +68,7 @@ const App = {
     if (todosOnLocal) {
       App.todos = todosOnLocal;
       App.render();
-      await App.setData();
+      await App.setData()
     }
     await fetch(API_URL, {
       headers: {
@@ -84,6 +84,7 @@ const App = {
             data.record.myTodos.length
           );
           App.todos = myTodos;
+          App.render();
         }
       })
       .catch((err) => console.log(err));
