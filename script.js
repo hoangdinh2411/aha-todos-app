@@ -58,7 +58,7 @@ const App = {
   },
   todos: [],
 
-  fetchingData: async () => {
+  async fetchingData() {
     if (localStorage.getItem('todos')) {
       App.todos = JSON.parse(localStorage.getItem('todos'));
       App.render();
@@ -79,7 +79,7 @@ const App = {
         App.todos = myTodos;
       });
   },
-  setData: async () => {
+  async setData() {
     localStorage.setItem(
       'todos',
       JSON.stringify(App.todos)
