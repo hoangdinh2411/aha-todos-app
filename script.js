@@ -67,24 +67,20 @@ const App = {
       App.render();
     }
 
-    try {
-      await fetch(API_URL, {
-        headers: {
-          'X-Master-Key': API_KEY,
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          const myTodos = data.record.myTodos.slice(
-            0,
-            data.record.myTodos.length
-          );
-          App.todos = myTodos;
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    await fetch(API_URL, {
+      headers: {
+        'X-Master-Key': API_KEY,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const myTodos = data.record.myTodos.slice(
+          0,
+          data.record.myTodos.length
+        );
+        App.todos = myTodos;
+      });
   },
   setData: async () => {
     App.saveLocal();
@@ -176,9 +172,8 @@ const App = {
     this.render();
     this.els.addButton.addEventListener('click', () => {
       this.add();
-      this.render()
+      this.render();
     });
-   
   },
 };
 
