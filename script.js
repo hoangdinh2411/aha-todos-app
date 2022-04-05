@@ -173,10 +173,10 @@ const App = {
 
   async init() {
     await App.fetchingData();
-    App.render();
+    this.render();
     this.els.addButton.addEventListener('click', () => {
       this.add();
-      this.saveLocal();
+      this.render()
     });
    
   },
