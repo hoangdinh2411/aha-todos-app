@@ -18,7 +18,7 @@ self.addEventListener('install', (e) => {
     caches
       .open(cacheName)
       .then((cache) => cache.addAll(cacheAssets))
-    // .then(() => self.skipWaiting())
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -37,11 +37,11 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-self.addEventListener('fetch', (event) => {
-  console.log(event.request.url);
-  event.respondWith(
-    caches
-      .match(event.request)
-      .then((resp) => resp || fetch(resp.request))
-  );
-});
+// self.addEventListener('fetch', (event) => {
+//   console.log(event.request.url);
+//   event.respondWith(
+//     caches
+//       .match(event.request)
+//       .then((resp) => resp || fetch(resp.request))
+//   );
+// });
