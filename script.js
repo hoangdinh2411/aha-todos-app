@@ -57,7 +57,17 @@ const App = {
     addButton: document.querySelector('button'),
   },
   todos: [],
+  add() {
+    const text = this.els.input.value;
+    if (text === '') {
+      alert('Type something!');
+      return;
+    }
 
+    this.todos.push({id: Date.now(), text, done: false});
+    this.render();
+    App.setData();
+  },
   async fetchingData() {
     if (localStorage.getItem('todos')) {
       App.todos = JSON.parse(localStorage.getItem('todos'));
@@ -92,18 +102,6 @@ const App = {
       },
       body: JSON.stringify({myTodos: App.todos}),
     });
-  },
-
-  add() {
-    const text = this.els.input.value;
-    if (text === '') {
-      alert('Type something!');
-      return;
-    }
-
-    this.todos.push({id: Date.now(), text, done: false});
-    this.render();
-    App.setData();
   },
 
   render() {
