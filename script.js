@@ -69,25 +69,26 @@ const App = {
       App.todos = todosOnLocal;
       App.render();
       await App.setData()
-    }
-    await fetch(API_URL, {
-      headers: {
-        'X-Master-Key': API_KEY,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.record.myTodos.length > 0) {
-          const myTodos = data.record.myTodos.slice(
-            0,
-            data.record.myTodos.length
-          );
-          App.todos = myTodos;
-          App.render();
-        }
+    }else{
+      await fetch(API_URL, {
+        headers: {
+          'X-Master-Key': API_KEY,
+          'Content-Type': 'application/json',
+        },
       })
-      .catch((err) => console.log(err));
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.record.myTodos.length > 0) {
+            const myTodos = data.record.myTodos.slice(
+              0,
+              data.record.myTodos.length
+            );
+            App.todos = myTodos;
+            App.render();
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   },
   setData: async () => {
     await fetch(API_URL, {
