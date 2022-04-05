@@ -1,4 +1,9 @@
 window.addEventListener('load', async () => {
+  if (await checkPermissions()) {
+    // send notification
+  } else {
+    await requestPermissions();
+  }
   if ('serviceWorker' in navigator) {
     try {
       await navigator.serviceWorker.register(
@@ -10,19 +15,30 @@ window.addEventListener('load', async () => {
   }
 });
 
-
-// Notification 
+// Notification
 
 // 1. check  permissions
 
-async function checkPermissions(){
-  console.log(Notification.permission)
+async function checkPermissions() {
+  if (Notification.permission === 'granted') {
+    // honk and drive
+    return true;
+  }
+  return false;
 }
 
 // 2 . request permissions
-  
+async function requestPermissions() {
+  let resp = Notification.requestPermission();
+
+  console.log(resp);
+}
+
 // 3.  show notification
 
+async function showNotification(mess) {
+  console.log('a')
+}
 
 const API_URL =
   'https://api.jsonbin.io/v3/b/624b4cd61a1b610f084b86a2';
@@ -155,7 +171,6 @@ const App = {
   },
 
   init() {
-   
     this.els.addButton.addEventListener('click', () => {
       this.add();
       this.saveLocal();
