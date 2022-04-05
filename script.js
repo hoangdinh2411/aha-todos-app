@@ -20,14 +20,17 @@ async function requestPermissions() {
 
 // 3.  show notification
 
-async function showNotification(mess) {
-  console.log('a')
+function showNotification(mess) {
+  new Notification('Welcome to Aha Website', {
+    icon: 'assets/logo/logo-72.png',
+    body: mess
+  })
 }
 
 window.addEventListener('load', async () => {
   if (await checkPermissions()) {
     // send notification
-    console.log('true')
+    showNotification('I love you!!!')
   } else {
     await requestPermissions();
   }
