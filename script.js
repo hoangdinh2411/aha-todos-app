@@ -59,9 +59,10 @@ const App = {
   todos: [],
 
   fetchingData: async () => {
-    const todosOnLocal = JSON.parse(
-      localStorage.getItem('todos')
-    );
+    const todosOnLocal =
+      JSON.parse(localStorage.getItem('todos')) ||
+      undefined;
+    console.log(todosOnLocal);
     if (todosOnLocal) {
       App.todos = todosOnLocal;
       App.render();
@@ -75,17 +76,19 @@ const App = {
     })
       .then((res) => res.json())
       .then((data) => {
-        const compare = todosOnLocal && todosOnLocal.some((todoOnLocal) => {
-          return data.record.myTodos.map((todo) => {
-            if (todoOnLocal.id !== todo.id) {
-              return true;
-            }
-            return false;
+        const compare =
+          todosOnLocal &&
+          todosOnLocal.some((todoOnLocal) => {
+            return data.record.myTodos.map((todo) => {
+              if (todoOnLocal.id !== todo.id) {
+                return true;
+              }
+              return false;
+            });
           });
-        });
-        if( compare){
-          App.setData()
-          return
+        if (compare) {
+          App.setData();
+          return;
         }
 
         const myTodos = data.record.myTodos.slice(
