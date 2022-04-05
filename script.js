@@ -13,8 +13,6 @@ async function checkPermissions() {
 // 2 . request permissions
 async function requestPermissions() {
   let resp = Notification.requestPermission();
-
-  console.log(resp);
 }
 
 // 3.  show notification
@@ -64,12 +62,12 @@ const App = {
     const todosOnLocal = JSON.parse(
       localStorage.getItem('todos')
     );
-
     if (todosOnLocal) {
       App.todos = todosOnLocal;
-      App.render();
-      await App.setData()
-    }else{
+      // App.render();
+    }
+
+    try {
       await fetch(API_URL, {
         headers: {
           'X-Master-Key': API_KEY,
@@ -78,16 +76,14 @@ const App = {
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.record.myTodos.length > 0) {
-            const myTodos = data.record.myTodos.slice(
-              0,
-              data.record.myTodos.length
-            );
-            App.todos = myTodos;
-            App.render();
-          }
-        })
-        .catch((err) => console.log(err));
+          const myTodos = data.record.myTodos.slice(
+            0,
+            data.record.myTodos.length
+          );
+          App.todos = myTodos;
+        });
+    } catch (error) {
+      console.log(error);
     }
   },
   setData: async () => {
@@ -110,13 +106,14 @@ const App = {
 
     this.todos.push({id: Date.now(), text, done: false});
     this.render();
-    this.setData();
+    App.setData();
   },
 
   render() {
     const main = document.querySelector('main');
     this.els.input.value = '';
-    App.saveLocal()
+    App.saveLocal();
+    App.setData();
     const output = this.todos?.map((todo) => {
       return `<article class="${
         todo.done ? 'checked' : ''
@@ -160,7 +157,6 @@ const App = {
     );
     this.todos[index].done = !this.todos[index].done;
     this.render();
-    this.setData();
   },
   remove(id) {
     const index = this.todos.findIndex(
@@ -168,7 +164,6 @@ const App = {
     );
     this.todos.splice(index, 1);
     this.render();
-    this.setData();
   },
   saveLocal() {
     localStorage.setItem(
@@ -182,7 +177,7 @@ const App = {
       this.add();
       this.saveLocal();
     });
-    this.fetchingData();
+    App.fetchingData();
     this.render();
   },
 };
