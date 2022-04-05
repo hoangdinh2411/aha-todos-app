@@ -22,20 +22,20 @@ self.addEventListener('install', (e) => {
   );
 });
 
-// self.addEventListener('activate', (e) => {
-//   console.log('activated');
-//   e.waitUntil(
-//     caches.keys().then((cacheNames) => {
-//       return Promise.all(
-//         cacheNames.map((cache) => {
-//           if (cache !== cacheName) {
-//             return caches.delete(cache);
-//           }
-//         })
-//       );
-//     })
-//   );
-// });
+self.addEventListener('activate', (e) => {
+  console.log('activated');
+  e.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== cacheName) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
+});
 
 // self.addEventListener('fetch', (event) => {
 //   console.log(event.request.url);
