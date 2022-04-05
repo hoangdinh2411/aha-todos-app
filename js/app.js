@@ -31,7 +31,7 @@ const App = {
   },
   setData: async () => {
     await fetch(API_URL, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'X-Master-Key': API_KEY,
         'Content-Type': 'application/json',
