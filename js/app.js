@@ -70,7 +70,8 @@ const App = {
   render() {
     const main = document.querySelector('main');
 
-    const output = this.todos.map((todo) => {
+    if(this.todos.lenght===0) return;
+    const output = this.todos?.map((todo) => {
       return `<article class="${
         todo.done ? 'checked' : ''
       }">
@@ -132,7 +133,7 @@ const App = {
 
   init() {
     this.fetchingData();
-
+    this.render()
     this.els.addButton.addEventListener('click', () => {
       this.add();
       this.saveLocal();
