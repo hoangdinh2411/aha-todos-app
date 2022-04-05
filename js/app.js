@@ -10,6 +10,14 @@ const App = {
   todos: [],
 
   fetchingData: async () => {
+    const todosOnLocal = JSON.parse(
+      localStorage.getItem('todos')
+    );
+
+    if (todosOnLocal) {
+      App.todos = todosOnLocal;
+      App.render();
+    }
     await fetch(API_URL, {
       headers: {
         'X-Master-Key': API_KEY,
@@ -19,15 +27,15 @@ const App = {
       .then((res) => res.json())
       .then((data) => {
         if (data.record.myTodos.length > 0) {
-          App.todos.push(data.record.myTodos);
+          const myTodos = data.record.myTodos.slice(
+            0,
+            data.record.myTodos.length
+          );
+          App.todos = myTodos;
           App.render();
-          return;
         }
-        return;
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   },
   setData: async () => {
     await fetch(API_URL, {
@@ -39,13 +47,11 @@ const App = {
       body: JSON.stringify({myTodos: App.todos}),
     })
       .then(() => {
-        console.log('success');
         App.saveLocal();
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   },
+
   add() {
     const text = this.els.input.value;
     if (text === '') {
@@ -54,16 +60,15 @@ const App = {
     }
 
     this.todos.push({id: Date.now(), text, done: false});
-
-    this.els.input.value = '';
+    console.log(this.todos);
     this.render();
     this.setData();
   },
 
   render() {
+    this.els.input.value = '';
     const main = document.querySelector('main');
 
-    if (this.todos.length === 0) return;
     const output = this.todos?.map((todo) => {
       return `<article class="${
         todo.done ? 'checked' : ''
@@ -125,21 +130,12 @@ const App = {
   },
 
   init() {
-    const todosOnLocal = JSON.parse(
-      localStorage.getItem('todos')
-    );
-    if (todosOnLocal) {
-      this.todos = todosOnLocal;
-      this.render();
-    }
     this.fetchingData();
-    this.render();
+    // this.render();
     this.els.addButton.addEventListener('click', () => {
       this.add();
       this.saveLocal();
     });
-
-    console.log(this.todos);
   },
 };
 
