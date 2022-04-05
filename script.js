@@ -62,7 +62,6 @@ const App = {
     const todosOnLocal =
       JSON.parse(localStorage.getItem('todos')) ||
       undefined;
-    console.log(todosOnLocal);
     if (todosOnLocal) {
       App.todos = todosOnLocal;
       App.render();
@@ -99,7 +98,10 @@ const App = {
       });
   },
   setData: async () => {
-    App.saveLocal();
+    localStorage.setItem(
+      'todos',
+      JSON.stringify(this.todos)
+    );
     await fetch(API_URL, {
       method: 'PUT',
       headers: {
@@ -175,12 +177,6 @@ const App = {
     );
     this.todos.splice(index, 1);
     this.render();
-  },
-  saveLocal() {
-    localStorage.setItem(
-      'todos',
-      JSON.stringify(this.todos)
-    );
   },
 
   async init() {
