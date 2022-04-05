@@ -64,7 +64,6 @@ const App = {
     );
     if (todosOnLocal) {
       App.todos = todosOnLocal;
-      await App.setData()
       App.render();
     }
 
@@ -76,6 +75,19 @@ const App = {
     })
       .then((res) => res.json())
       .then((data) => {
+        const compare = todosOnLocal && todosOnLocal.some((todoOnLocal) => {
+          return data.record.myTodos.map((todo) => {
+            if (todoOnLocal.id !== todo.id) {
+              return true;
+            }
+            return false;
+          });
+        });
+        if( compare){
+          App.setData()
+          return
+        }
+
         const myTodos = data.record.myTodos.slice(
           0,
           data.record.myTodos.length
