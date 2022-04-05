@@ -1,19 +1,3 @@
-window.addEventListener('load', async () => {
-  if (await checkPermissions()) {
-    // send notification
-  } else {
-    await requestPermissions();
-  }
-  if ('serviceWorker' in navigator) {
-    try {
-      await navigator.serviceWorker.register(
-        '/serviceworker.js'
-      );
-    } catch (error) {
-      console.error('Whooopsie!', error);
-    }
-  }
-});
 
 // Notification
 
@@ -39,6 +23,24 @@ async function requestPermissions() {
 async function showNotification(mess) {
   console.log('a')
 }
+
+window.addEventListener('load', async () => {
+  if (await checkPermissions()) {
+    // send notification
+    console.log('true')
+  } else {
+    await requestPermissions();
+  }
+  if ('serviceWorker' in navigator) {
+    try {
+      await navigator.serviceWorker.register(
+        '/serviceworker.js'
+      );
+    } catch (error) {
+      console.error('Whooopsie!', error);
+    }
+  }
+});
 
 const API_URL =
   'https://api.jsonbin.io/v3/b/624b4cd61a1b610f084b86a2';
