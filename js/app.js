@@ -18,7 +18,6 @@ const App = {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         todos.push(data.record.myTodos);
       })
       .catch((err) => {
