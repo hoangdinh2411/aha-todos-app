@@ -45,7 +45,6 @@ const App = {
             data.record.myTodos.length
           );
           App.todos = myTodos;
-          App.render();
         }
       })
       .catch((err) => console.log(err));
@@ -79,8 +78,8 @@ const App = {
   },
 
   render() {
-    this.els.input.value = '';
     const main = document.querySelector('main');
+    this.els.input.value = '';
 
     const output = this.todos?.map((todo) => {
       return `<article class="${
@@ -143,12 +142,13 @@ const App = {
   },
 
   init() {
-    this.fetchingData();
-    // this.render();
+   
     this.els.addButton.addEventListener('click', () => {
       this.add();
       this.saveLocal();
     });
+    this.fetchingData();
+    this.render();
   },
 };
 
